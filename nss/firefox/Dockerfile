@@ -1,5 +1,7 @@
 FROM ubuntu:24.04
 
+ARG FIREFOX_TAG=78c455227887c316bdde0be2738e31fcecb4547d
+
 # Set non-interactive mode for apt
 ENV DEBIAN_FRONTEND=noninteractive
 # Set wolf install path
@@ -69,10 +71,9 @@ WORKDIR /home/ubuntu/src
 RUN git clone https://github.com/wolfSSL/osp.git
 
 WORKDIR /home/ubuntu/firefox
-RUN git pull
+RUN git checkout $FIREFOX_TAG
 WORKDIR /home/ubuntu/firefox/security/nss
-RUN patch -p1 < /home/ubuntu/src/osp/nss/nss-ecc-curves.patch
-RUN patch -p1 < /home/ubuntu/src/osp/nss/nss-slot.patch
+RUN patch -p1 < /home/ubuntu/src/osp/nss/nss-tests-2025-04-11-978205bd37c33d862a5798d8158df7091412d3a7.patch
 WORKDIR /home/ubuntu/firefox
 RUN ./mach build
 RUN mkdir -p /home/ubuntu/firefox/obj-x86_64-pc-linux-gnu/tmp/profile-default
