@@ -73,6 +73,7 @@ RUN git clone https://github.com/wolfSSL/osp.git
 WORKDIR /home/ubuntu/firefox
 RUN git checkout $FIREFOX_TAG
 WORKDIR /home/ubuntu/firefox/security/nss
+RUN patch -p1 < /home/ubuntu/src/osp/nss/nss-fixes-2025-04-11-978205bd37c33d862a5798d8158df7091412d3a7.patch
 RUN patch -p1 < /home/ubuntu/src/osp/nss/nss-tests-2025-04-11-978205bd37c33d862a5798d8158df7091412d3a7.patch
 WORKDIR /home/ubuntu/firefox
 RUN ./mach build
